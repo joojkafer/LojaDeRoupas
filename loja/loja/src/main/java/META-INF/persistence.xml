@@ -1,0 +1,32 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+	version="2.2">
+
+	<persistence-unit name="LojaDeRoupas">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.uniamerica.model.Cliente</class>
+        <class>com.uniamerica.model.Vendedor</class>
+        <class>com.uniamerica.model.Endereco</class>
+        <class>com.uniamerica.model.CartaoCredito</class>
+        <class>com.uniamerica.model.Produto</class>
+        <class>com.uniamerica.model.Pedido</class>
+        <class>com.uniamerica.model.ProdutoPedido</class>
+        <class>com.uniamerica.model.Pagamento</class>
+        <class>com.uniamerica.model.NotaFiscal</class>
+
+		<properties>
+			<!-- Configurações do banco de dados -->
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/LojaDeRoupas" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="" />
+
+			<!-- Configurações do Hibernate -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="false"/> <!-- Para exibir SQL no console -->
+            <property name="hibernate.format_sql" value="true"/> 
+			<property name="hibernate.hbm2ddl.auto" value="update" /> <!--Atualiza o esquema do banco de dados -->
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,107 @@
+create database LojaDeRoupas; 
+drop database LojaDeRoupas;
+use LojaDeRoupas; 
+
+-- CRIAÇÃO DAS TABELAS 
+
+create table if not exists vendedor( 
+	idVendedor int primary key auto_increment not null, 
+    cpf varchar(11), 
+    index idxCpfCliente(cpf), 
+    nome varchar(100)
+);
+
+create table if not exists cliente( 
+	idCliente int primary key auto_increment not null, 
+    cpf varchar(11), 
+    nome varchar(100), 
+    dataCadastro date
+);
+
+SELECT * FROM cliente;
+SELECT * FROM cartaoCredito;
+SELECT * FROM endereco;
+SELECT * FROM produto;
+SELECT * FROM vendedor;
+SELECT * FROM pedido;
+SELECT * FROM produtoPedido;
+SELECT * FROM pagamento;
+SELECT * FROM notaFiscal;
+
+create table if not exists cartaoCredito( 
+	idCartaoCredito int primary key auto_increment not null, 
+    numero varchar(16), 
+    cvv varchar(3), 
+    dataValidade date, 
+    nomeCartao varchar (100),
+    fk_idCliente int,
+    foreign key (fk_idCliente) references cliente(idCliente) 
+);
+
+create table if not exists endereco( 
+	idEndereco int primary key auto_increment not null, 
+    cep varchar(9), 
+    numero varchar(10), 
+    rua varchar(50), 
+    bairro varchar(50), 
+    cidade varchar(50), 
+    estado varchar(50), 
+    pais varchar(30), 
+    complemento varchar(100),
+    fk_idCliente int,
+    foreign key (fk_idCliente) references cliente(idCliente) 
+);
+
+create table if not exists produto( 
+	idProduto int primary key auto_increment not null, 
+    nome varchar(50), 
+    tipo varchar(30), 
+    marca varchar(50), 
+    tamanho varchar(3), 
+    descricaoProd varchar(100), 
+    valorProd double, 
+    qtdEstoqueProd int 
+);
+
+create table if not exists pedido( 
+	idPedido int primary key auto_increment not null, 
+    valorTotal double, 
+    valorDesconto double, 
+	dataPedido date, 
+    fk_idVendedor int, 
+    fk_idCliente int, 
+	foreign key (fk_idVendedor) references vendedor(idVendedor), 
+    foreign key (fk_idCliente) references cliente(idCliente) 
+); 
+
+create table if not exists produtoPedido( 
+	idProdutoPedido int primary key auto_increment not null, 
+    qtdProd int, 
+    valorUnitario double, 
+    subtotal double, 
+    fk_idProduto int, 
+    fk_idPedido int, 
+    foreign key (fk_idProduto) references produto(idProduto), 
+    foreign key (fk_idPedido) references pedido(idPedido) 
+); 
+
+drop table notaFiscal;
+drop table pagamento;
+
+create table if not exists pagamento( 
+	idPagamento int primary key auto_increment not null, 
+    metodoPagamento int, 
+    statusPagamento boolean, 
+    dataPagamento date, 
+    valorFinal double, 
+    fk_idPedido int, 
+    foreign key (fk_idPedido) references pedido(idPedido) 
+); 
+
+create table if not exists notaFiscal( 
+	idNotaFiscal int primary key auto_increment not null, 
+    valorTotal double, 
+    dataEmissao date, 
+    fk_idPedido int, 
+    foreign key (fk_idPedido) references pedido(idPedido) 
+);
